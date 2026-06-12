@@ -1,6 +1,11 @@
 
+import { Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronRight, ArrowRight, Layers, Zap, Shield, Sparkles } from 'lucide-react';
+import { ChevronRight, ArrowRight, Zap, Shield, Sparkles } from 'lucide-react';
+
+import HeroDevice from './components/webgl/HeroDevice';
+import ExplodedView from './components/webgl/ExplodedView';
+import AmbientParticles from './components/webgl/AmbientParticles';
 
 function App() {
   return (
@@ -64,10 +69,9 @@ function App() {
           className="mt-20 w-full h-[400px] md:h-[600px] bg-apple-gray rounded-[2.5rem] flex items-center justify-center shadow-bento relative overflow-hidden border border-gray-100"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent z-10 pointer-events-none"></div>
-          <div className="text-apple-darkGray font-mono text-sm flex flex-col items-center">
-            <Layers className="w-8 h-8 mb-3 opacity-50" />
-            [ WebGL Area 1: Hero Parallax Device ]
-          </div>
+          <Suspense fallback={<div className="text-apple-darkGray font-mono text-sm">Loading 3D...</div>}>
+            <HeroDevice />
+          </Suspense>
         </motion.div>
       </section>
 
@@ -110,12 +114,14 @@ function App() {
             
             {/* WebGL Placeholder - Feature Exploded View */}
             <div className="md:col-span-2 bg-apple-black text-white rounded-[24px] p-10 shadow-bento relative overflow-hidden flex flex-col justify-between">
-              <div>
+              <div className="z-10 pointer-events-none">
                 <h3 className="text-3xl font-bold mb-2">Look inside.</h3>
                 <p className="text-gray-400 text-lg max-w-sm">Every component perfectly engineered for maximum performance.</p>
               </div>
-              <div className="h-32 flex items-center justify-center border border-gray-800 rounded-xl bg-gray-900/50 mt-4 backdrop-blur-md font-mono text-sm text-gray-500">
-                [ WebGL Area 2: Scroll-Driven Exploded View ]
+              <div className="absolute inset-0 z-0">
+                <Suspense fallback={<div className="h-full w-full flex items-center justify-center font-mono text-sm text-gray-500">Loading 3D...</div>}>
+                  <ExplodedView />
+                </Suspense>
               </div>
             </div>
           </div>
@@ -123,37 +129,41 @@ function App() {
       </section>
 
       {/* Call to Action & Sign Up */}
-      <section className="w-full max-w-3xl py-32 px-6 flex flex-col items-center text-center">
-        <div className="mb-10 w-full h-[200px] border border-gray-100 bg-white rounded-[24px] shadow-sm flex items-center justify-center font-mono text-sm text-apple-darkGray">
-           [ WebGL Area 3: Ambient Background Particles (Behind CTA) ]
+      <section className="w-full max-w-3xl py-32 px-6 flex flex-col items-center text-center relative">
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-[40px]">
+           <Suspense fallback={null}>
+             <AmbientParticles />
+           </Suspense>
         </div>
         
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-apple-black mb-6">
-          Ready to experience NOTtxJTE?
-        </h2>
-        <p className="text-xl text-apple-darkGray mb-10 max-w-xl">
-          Join the waitlist today and be the first to know when we launch.
-        </p>
-        
-        <form className="w-full max-w-md flex flex-col gap-4">
-          <input 
-            type="email" 
-            placeholder="Email address" 
-            className="w-full px-6 py-4 rounded-xl border border-gray-200 bg-apple-gray text-apple-black focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent transition-all"
-            required
-            aria-label="Email address"
-          />
-          <button 
-            type="submit" 
-            className="w-full bg-apple-black text-white font-semibold py-4 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center cursor-pointer"
-          >
-            Sign Up <ArrowRight className="w-5 h-5 ml-2" />
-          </button>
-        </form>
-        
-        <p className="text-sm text-apple-darkGray mt-6">
-          By signing up, you agree to our Terms of Service and Privacy Policy.
-        </p>
+        <div className="z-10 bg-white/80 backdrop-blur-xl p-12 rounded-[32px] border border-gray-100 shadow-xl w-full flex flex-col items-center">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-apple-black mb-6">
+            Ready to experience NOTtxJTE?
+          </h2>
+          <p className="text-xl text-apple-darkGray mb-10 max-w-xl">
+            Join the waitlist today and be the first to know when we launch.
+          </p>
+          
+          <form className="w-full max-w-md flex flex-col gap-4">
+            <input 
+              type="email" 
+              placeholder="Email address" 
+              className="w-full px-6 py-4 rounded-xl border border-gray-200 bg-white text-apple-black focus:outline-none focus:ring-2 focus:ring-apple-blue focus:border-transparent transition-all shadow-sm"
+              required
+              aria-label="Email address"
+            />
+            <button 
+              type="submit" 
+              className="w-full bg-apple-black text-white font-semibold py-4 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center cursor-pointer shadow-md"
+            >
+              Sign Up <ArrowRight className="w-5 h-5 ml-2" />
+            </button>
+          </form>
+          
+          <p className="text-sm text-apple-darkGray mt-6">
+            By signing up, you agree to our Terms of Service and Privacy Policy.
+          </p>
+        </div>
       </section>
 
       {/* Footer */}
