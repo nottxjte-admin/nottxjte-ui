@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './index.css';
 
-function Navbar() {
+export function Navbar() {
   return (
     <nav>
       <ul>
@@ -15,7 +15,7 @@ function Navbar() {
   );
 }
 
-function Hero() {
+export function Hero() {
   return (
     <section className="dark" id="hero">
       <div className="container">
@@ -35,7 +35,7 @@ function Hero() {
   );
 }
 
-function Features() {
+export function Features() {
   return (
     <section className="light" id="features">
       <div className="container">
@@ -68,7 +68,7 @@ function Features() {
   );
 }
 
-function DeepDive() {
+export function DeepDive() {
   return (
     <section className="dark" id="integration">
       <div className="container">
@@ -99,7 +99,7 @@ function DeepDive() {
   );
 }
 
-function SignupForm() {
+export function SignupForm() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -120,8 +120,7 @@ function SignupForm() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       setSuccess(true);
       setEmail('');
-    } catch (err) {
-      console.error(err);
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);
